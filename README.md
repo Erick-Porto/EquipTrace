@@ -21,6 +21,49 @@ O **EquipTrace** centraliza essas informações, transformando dados brutos de G
 
 ---
 
+## 📘 Manual de Operação Passo a Passo
+
+Siga este guia para configurar o sistema do zero. A ordem lógica é: **Cargos > Usuários > Hardware > Ativos**.
+
+### 1. Como Cadastrar um Novo Funcionário (Efetivo)
+Antes de tudo, você precisa cadastrar quem vai usar os equipamentos.
+
+1.  No menu lateral, vá em **Configuração > Cargos**.
+    * Cadastre as funções da sua empresa (ex: "Técnico Nível 1", "Supervisor de Obra").
+2.  Agora vá em **Técnico > Efetivo**.
+3.  No formulário "Novo Colaborador":
+    * **Nome Completo:** Digite o nome do funcionário.
+    * **E-mail:** Digite o e-mail corporativo.
+    * **Função:** Selecione o cargo que você criou no passo 1.
+4.  Clique em **Cadastrar**.
+    * *Resultado:* O funcionário aparecerá na lista ao lado e estará disponível para receber equipamentos.
+
+### 2. Como Cadastrar um Rastreador Físico (Hardware)
+Aqui você cadastra o dispositivo GPS que chegou da fábrica (Estoque).
+
+1.  No menu lateral, vá em **Técnico > Estoque (Hardware)**.
+2.  No formulário "Adicionar Hardware":
+    * **Modelo:** Escolha o modelo do equipamento (ex: SenseCAP T1000).
+    * **Serial Number:** Digite o S/N que está na etiqueta do aparelho (ex: `SN-12345678`).
+    * **Chave API:** Digite a chave de integração (se houver).
+3.  Clique em **Cadastrar**.
+    * *Resultado:* O rastreador entra no sistema com status "Disponível em Estoque".
+
+### 3. Como Criar e Vincular um Ativo (O Rastreamento Real)
+Agora vamos juntar tudo: O Objeto Real + O Rastreador + O Responsável.
+
+1.  No menu lateral, vá em **Operação > Ativos Monitorados**.
+2.  No formulário "Novo Ativo":
+    * **Nome do Ativo:** Como você chama esse item? (ex: "Furadeira Bosch 05" ou "Fiat Fiorino Placa ABC").
+    * **Tipo:** Selecione a categoria (Veículo, Ferramenta, etc).
+    * **Hardware Vinculado:** A lista mostrará apenas os rastreadores *livres* no estoque. Selecione o S/N que você cadastrou no passo 2.
+    * **Responsável:** Selecione o funcionário que ficará com o item (cadastrado no passo 1).
+3.  Clique em **Criar Ativo**.
+4.  Vá para o **Dashboard (Visão Geral)**.
+    * *Resultado:* O ativo aparecerá no painel. Clique em "Localizar no Mapa" para ver a posição em tempo real.
+
+---
+
 ## 🚀 Funcionalidades Atuais (Frontend)
 
 O projeto atual é um **MVP (Minimum Viable Product) Front-end** totalmente funcional em termos de interface e lógica de negócio local (simulada via Context API/LocalStorage).
@@ -75,21 +118,6 @@ O projeto atual é um **MVP (Minimum Viable Product) Front-end** totalmente func
 5.  **Login de Acesso (Demo):**
     * **E-mail:** `admin@equiptrace.com`
     * **Senha:** `123456`
-
----
-
-## 📖 Guia de Uso (Fluxo do Sistema)
-
-Para ver o sistema funcionando corretamente, siga este fluxo lógico de cadastro:
-
-1.  **Defina os Cargos:** Vá em *Configuração > Cargos* e crie funções (ex: Supervisor, Motorista).
-2.  **Cadastre o Efetivo:** Vá em *Técnico > Efetivo* e cadastre as pessoas que usarão os equipamentos.
-3.  **Adicione Hardware (Estoque):** Vá em *Técnico > Estoque (Hardware)*. Cadastre um rastreador físico (ex: SenseCAP T1000) com seu Serial Number.
-4.  **Crie o Ativo:** Vá em *Operação > Ativos Monitorados*.
-    * Crie um ativo (ex: "Carro da Firma").
-    * **Vincule** o Hardware que você criou no passo 3.
-    * **Atribua** a um Colaborador do passo 2.
-5.  **Monitore:** Vá ao *Dashboard* e clique em "Localizar no Mapa" ou "Monitorar" para ver a telemetria em tempo real.
 
 ---
 
