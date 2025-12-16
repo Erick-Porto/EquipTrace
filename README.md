@@ -99,8 +99,8 @@ O projeto atual é um **MVP (Minimum Viable Product) Front-end** totalmente func
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/SEU_USUARIO/equiptrace.git](https://github.com/SEU_USUARIO/equiptrace.git)
-    cd equiptrace
+    git clone [https://github.com/Erick-Porto/EquipTrace.git](https://github.com/Erick-Porto/EquipTrace.git)
+    cd EquipeTrace
     ```
 
 2.  **Instale as dependências:**
@@ -158,4 +158,4 @@ Para suportar até 1.000 dispositivos:
 Este projeto é proprietário e desenvolvido para fins de demonstração da plataforma EquipTrace.
 
 ---
-Desenvolvido com 💜 por [Seu Nome/Empresa]
+Desenvolvido com 💜 por EquipTrace
