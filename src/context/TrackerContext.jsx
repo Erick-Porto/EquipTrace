@@ -20,14 +20,6 @@ const initialHardwares = [
     battery: 45,
     lastSeen: "Há 10 min",
   },
-  {
-    id: 103,
-    model: "Dragino LGT-92",
-    serial: "SN-DRA-555",
-    key: "key_lora_555",
-    battery: 98,
-    lastSeen: "Estoque",
-  },
 ];
 
 const initialAssets = [
@@ -38,29 +30,18 @@ const initialAssets = [
     assignedUserId: "3",
     linkedHardwareId: 102,
   },
-  {
-    id: 2,
-    name: "Maleta de Ferramentas",
-    type: "caixa_ferramenta",
-    assignedUserId: "2",
-    linkedHardwareId: 101,
-  },
 ];
 
 const initialTypes = [
   { id: "veiculo_leve", label: "Veículo Leve", iconKey: "Car" },
   { id: "caminhao", label: "Caminhão", iconKey: "Truck" },
   { id: "ferramenta_eletrica", label: "Ferramenta Elétrica", iconKey: "Drill" },
-  { id: "caixa_ferramenta", label: "Caixa de Ferramentas", iconKey: "Box" },
-  { id: "manutencao", label: "Item em Manutenção", iconKey: "Wrench" },
 ];
 
-// NOVOS DADOS INICIAIS DE CARGOS
 const initialRoles = [
   { id: "gestor", label: "Gestor de Frota" },
   { id: "tecnico", label: "Técnico de Campo" },
   { id: "motorista", label: "Motorista" },
-  { id: "suporte", label: "Suporte TI" },
 ];
 
 const initialUsers = [
@@ -68,24 +49,11 @@ const initialUsers = [
     id: 1,
     name: "Administrador",
     role: "Gestor de Frota",
-    email: "admin@loshall.com",
-  },
-  {
-    id: 2,
-    name: "João Técnico",
-    role: "Técnico de Campo",
-    email: "joao@loshall.com",
-  },
-  {
-    id: 3,
-    name: "Maria Logística",
-    role: "Motorista",
-    email: "maria@loshall.com",
+    email: "admin@equiptrace.com",
   },
 ];
 
 export const TrackerProvider = ({ children }) => {
-  // STATES
   const [hardwares, setHardwares] = useState(
     () => JSON.parse(localStorage.getItem("loshall_hw")) || initialHardwares
   );
@@ -98,13 +66,10 @@ export const TrackerProvider = ({ children }) => {
   const [users, setUsers] = useState(
     () => JSON.parse(localStorage.getItem("loshall_users")) || initialUsers
   );
-
-  // NOVO STATE: ROLES
   const [roles, setRoles] = useState(
     () => JSON.parse(localStorage.getItem("loshall_roles")) || initialRoles
   );
 
-  // PERSISTÊNCIA
   useEffect(() => {
     localStorage.setItem("loshall_hw", JSON.stringify(hardwares));
   }, [hardwares]);
@@ -139,7 +104,6 @@ export const TrackerProvider = ({ children }) => {
       )
     );
   };
-  const getHardwareById = (id) => hardwares.find((h) => h.id === Number(id));
 
   // --- ACTIONS ASSETS ---
   const addAsset = (asset) =>
@@ -152,26 +116,37 @@ export const TrackerProvider = ({ children }) => {
     setAssets((prev) => prev.filter((a) => a.id !== id));
   const getAssetById = (id) => assets.find((a) => a.id === Number(id));
 
-  // --- ACTIONS UTILS (Types & Users) ---
-  const addAssetType = (l, k) =>
-    setAssetTypes([...assetTypes, { id: Date.now(), label: l, iconKey: k }]);
-  const removeAssetType = (id) =>
-    setAssetTypes((prev) => prev.filter((t) => t.id !== id));
-
+  // --- ACTIONS USERS (NOVO UPDATE) ---
   const addUser = (u) => setUsers([...users, { ...u, id: Date.now() }]);
+  const updateUser = (id, data) =>
+    setUsers((prev) =>
+      prev.map((u) => (u.id === Number(id) ? { ...u, ...data } : u))
+    );
   const removeUser = (id) =>
     setUsers((prev) => prev.filter((u) => u.id !== id));
 
-  // NOVAS ACTIONS: ROLES
-  const addRole = (label) => {
-    const id = label.toLowerCase().replace(/\s/g, "_") + "_" + Date.now();
-    setRoles([...roles, { id, label }]);
-  };
+  // --- ACTIONS ROLES (NOVO UPDATE) ---
+  const addRole = (label) =>
+    setRoles([
+      ...roles,
+      { id: label.toLowerCase().replace(/\s/g, "_") + "_" + Date.now(), label },
+    ]);
+  const updateRole = (id, label) =>
+    setRoles((prev) => prev.map((r) => (r.id === id ? { ...r, label } : r)));
   const removeRole = (id) => {
-    if (roles.length <= 1)
-      return alert("É necessário ter pelo menos um cargo.");
+    if (roles.length <= 1) return alert("Mínimo 1 cargo necessário.");
     setRoles((prev) => prev.filter((r) => r.id !== id));
   };
+
+  // --- ACTIONS ASSET TYPES (NOVO UPDATE) ---
+  const addAssetType = (label, iconKey) =>
+    setAssetTypes([...assetTypes, { id: Date.now(), label, iconKey }]);
+  const updateAssetType = (id, data) =>
+    setAssetTypes((prev) =>
+      prev.map((t) => (t.id === Number(id) ? { ...t, ...data } : t))
+    );
+  const removeAssetType = (id) =>
+    setAssetTypes((prev) => prev.filter((t) => t.id !== id));
 
   return (
     <TrackerContext.Provider
@@ -180,7 +155,6 @@ export const TrackerProvider = ({ children }) => {
         addHardware,
         updateHardware,
         removeHardware,
-        getHardwareById,
         assets,
         addAsset,
         updateAsset,
@@ -188,13 +162,16 @@ export const TrackerProvider = ({ children }) => {
         getAssetById,
         assetTypes,
         addAssetType,
+        updateAssetType,
         removeAssetType,
         users,
         addUser,
+        updateUser,
         removeUser,
         roles,
         addRole,
-        removeRole, // Exportando
+        updateRole,
+        removeRole,
       }}
     >
       {children}

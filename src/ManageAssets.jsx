@@ -71,41 +71,40 @@ const ManageAssets = () => {
   };
 
   return (
-    <div className="p-4 md:p-8 max-w-6xl mx-auto">
-      <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-white">
+    <div className="p-6 md:p-10 max-w-7xl mx-auto">
+      <div className="mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
           Ativos Monitorados
         </h1>
-        <p className="text-slate-400 text-sm md:text-base">
-          Gerencie a frota e vincule os rastreadores do estoque.
+        <p className="text-slate-400">
+          Gerencie a frota e vínculos de hardware.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-        {/* FORMULÁRIO */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Formulário */}
         <div className="lg:col-span-1">
           <div
-            className={`rounded-xl p-5 md:p-6 border sticky top-4 transition-colors ${
-              editingId
-                ? "bg-blue-900/20 border-blue-500/50"
-                : "bg-slate-800 border-slate-700"
+            className={`glass-panel p-6 rounded-2xl sticky top-6 transition-all ${
+              editingId ? "border-violet-500/50 shadow-violet-900/20" : ""
             }`}
           >
-            <h2 className="text-lg md:text-xl font-bold text-white mb-6 flex items-center gap-2">
-              {editingId ? (
-                <>
-                  <Edit size={20} className="text-blue-400" /> Editar Ativo
-                </>
-              ) : (
-                <>
-                  <Truck size={20} className="text-blue-500" /> Novo Ativo
-                </>
-              )}
+            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+              <div
+                className={`p-2 rounded-lg ${
+                  editingId
+                    ? "bg-violet-500/20 text-violet-300"
+                    : "bg-slate-800 text-slate-300"
+                }`}
+              >
+                {editingId ? <Edit size={20} /> : <Plus size={20} />}
+              </div>
+              {editingId ? "Editar Ativo" : "Novo Ativo"}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
                   Nome do Ativo
                 </label>
                 <input
@@ -114,13 +113,12 @@ const ManageAssets = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2.5 text-white outline-none focus:border-blue-500 transition mt-1"
+                  className="input-modern mt-2"
                   placeholder="Ex: Carro 01"
                 />
               </div>
-
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
                   Tipo
                 </label>
                 <select
@@ -128,19 +126,18 @@ const ManageAssets = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, type: e.target.value })
                   }
-                  className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2.5 text-white outline-none focus:border-blue-500 transition mt-1"
+                  className="input-modern mt-2 appearance-none"
                 >
                   {assetTypes.map((t) => (
-                    <option key={t.id} value={t.id}>
+                    <option key={t.id} value={t.id} className="bg-slate-900">
                       {t.label}
                     </option>
                   ))}
                 </select>
               </div>
-
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-                  <LinkIcon size={12} /> Hardware Vinculado
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2">
+                  <LinkIcon size={12} /> Hardware
                 </label>
                 <select
                   value={formData.linkedHardwareId}
@@ -150,23 +147,24 @@ const ManageAssets = () => {
                       linkedHardwareId: e.target.value,
                     })
                   }
-                  className={`w-full bg-slate-900 border rounded px-3 py-2.5 text-white outline-none focus:border-blue-500 transition mt-1 ${
+                  className={`input-modern mt-2 appearance-none ${
                     formData.linkedHardwareId
                       ? "border-green-500/50 text-green-300"
-                      : "border-slate-600"
+                      : ""
                   }`}
                 >
-                  <option value="">-- Nenhum --</option>
+                  <option value="" className="bg-slate-900">
+                    -- Nenhum --
+                  </option>
                   {availableHardwares.map((h) => (
-                    <option key={h.id} value={h.id}>
+                    <option key={h.id} value={h.id} className="bg-slate-900">
                       {h.model} — {h.serial}
                     </option>
                   ))}
                 </select>
               </div>
-
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
                   Responsável
                 </label>
                 <select
@@ -174,52 +172,41 @@ const ManageAssets = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, assignedUserId: e.target.value })
                   }
-                  className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2.5 text-white outline-none focus:border-blue-500 transition mt-1"
+                  className="input-modern mt-2 appearance-none"
                 >
-                  <option value="">-- Ninguém --</option>
+                  <option value="" className="bg-slate-900">
+                    -- Ninguém --
+                  </option>
                   {users.map((u) => (
-                    <option key={u.id} value={u.id}>
+                    <option key={u.id} value={u.id} className="bg-slate-900">
                       {u.name}
                     </option>
                   ))}
                 </select>
               </div>
-
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-3 pt-4">
                 {editingId && (
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition flex justify-center items-center gap-2"
+                    className="flex-1 px-4 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-white font-bold transition"
                   >
-                    <X size={18} /> Cancelar
+                    Cancelar
                   </button>
                 )}
                 <button
                   type="submit"
-                  className={`flex-1 font-bold py-3 rounded transition flex justify-center items-center gap-2 shadow-lg ${
-                    editingId
-                      ? "bg-blue-600 hover:bg-blue-700 text-white"
-                      : "bg-green-600 hover:bg-green-700 text-white"
-                  }`}
+                  className="btn-primary flex-1 flex justify-center items-center gap-2"
                 >
-                  {editingId ? (
-                    <>
-                      <Save size={18} /> Salvar
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={18} /> Criar Ativo
-                    </>
-                  )}
+                  {editingId ? "Salvar" : "Criar"}
                 </button>
               </div>
             </form>
           </div>
         </div>
 
-        {/* LISTA */}
-        <div className="lg:col-span-2 space-y-3">
+        {/* LISTA DE ATIVOS */}
+        <div className="lg:col-span-2 space-y-4">
           {assets.map((asset) => {
             const hw = hardwares.find((h) => h.id === asset.linkedHardwareId);
             const user = users.find((u) => u.id == asset.assignedUserId);
@@ -230,60 +217,52 @@ const ManageAssets = () => {
             return (
               <div
                 key={asset.id}
-                className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition ${
-                  isEditing
-                    ? "bg-blue-900/10 border-blue-500/50"
-                    : "bg-slate-800 border-slate-700 hover:border-slate-600"
+                className={`glass-card p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-6 ${
+                  isEditing ? "border-violet-500/50 bg-violet-500/5" : ""
                 }`}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-5">
                   <div
-                    className={`p-3 rounded-lg ${
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg ${
                       isEditing
-                        ? "bg-blue-500/20 text-blue-300"
-                        : "bg-slate-700 text-blue-400"
+                        ? "bg-violet-500 text-white"
+                        : "bg-slate-800 text-slate-400 border border-white/5"
                     }`}
                   >
-                    <Icon size={24} />
+                    <Icon size={28} />
                   </div>
-                  <div className="min-w-0">
-                    <h3 className="text-white font-bold text-lg flex items-center gap-2 truncate">
-                      {asset.name}{" "}
+                  <div>
+                    <h3 className="text-xl font-bold text-white flex items-center gap-3">
+                      {asset.name}
                       {isEditing && (
-                        <span className="text-[10px] bg-blue-500 text-white px-1.5 py-0.5 rounded">
+                        <span className="text-[10px] bg-violet-500 text-white px-2 py-0.5 rounded-full">
                           EDITANDO
                         </span>
                       )}
                     </h3>
-                    <div className="text-sm text-slate-400 flex flex-col gap-1 mt-1">
-                      <span className="flex items-center gap-1.5 truncate">
-                        <Cpu
-                          size={14}
-                          className={hw ? "text-green-400" : "text-red-400"}
-                        />{" "}
-                        {hw ? (
-                          <span className="text-slate-300 truncate">
-                            {hw.model}{" "}
-                            <span className="text-slate-500 font-mono text-xs">
-                              ({hw.serial})
-                            </span>
-                          </span>
-                        ) : (
-                          "Sem hardware vinculado"
-                        )}
+                    <div className="text-sm text-slate-400 flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2">
+                      <span
+                        className={`flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/20 ${
+                          hw ? "text-emerald-400" : "text-red-400"
+                        }`}
+                      >
+                        <Cpu size={14} /> {hw ? hw.model : "Sem hardware"}
                       </span>
                       {user && (
-                        <span className="flex items-center gap-1.5 truncate">
-                          <User size={14} /> Resp: {user.name}
+                        <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/20">
+                          <User size={14} /> {user.name}
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-2 self-end sm:self-center shrink-0">
+
+                {/* BOTÕES DE AÇÃO RESTAURADOS */}
+                <div className="flex gap-3 self-end sm:self-center">
                   <button
                     onClick={() => handleEdit(asset)}
-                    className="p-2 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 rounded transition"
+                    className="p-3 rounded-xl bg-white/5 text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 border border-white/10 transition-all hover:scale-105"
+                    title="Editar"
                     disabled={isEditing}
                   >
                     <Edit size={20} />
@@ -293,7 +272,8 @@ const ManageAssets = () => {
                       if (window.confirm(`Excluir ${asset.name}?`))
                         removeAsset(asset.id);
                     }}
-                    className="p-2 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded transition"
+                    className="p-3 rounded-xl bg-white/5 text-slate-300 hover:bg-red-500/20 hover:text-red-300 border border-white/10 transition-all hover:scale-105"
+                    title="Excluir"
                   >
                     <Trash2 size={20} />
                   </button>
@@ -301,11 +281,6 @@ const ManageAssets = () => {
               </div>
             );
           })}
-          {assets.length === 0 && (
-            <div className="p-8 text-center border-2 border-dashed border-slate-800 rounded-xl text-slate-500">
-              Nenhum ativo cadastrado.
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTrackerContext } from "./context/TrackerContext";
-import { Cpu, Plus, Trash2, Edit, Save, X, Box, Link2 } from "lucide-react";
+import { Cpu, Plus, Trash2, Edit, Link2, Box } from "lucide-react";
 
 const ManageHardware = () => {
   const { hardwares, addHardware, updateHardware, removeHardware, assets } =
@@ -34,41 +34,39 @@ const ManageHardware = () => {
     assets.find((a) => a.linkedHardwareId === hwId);
 
   return (
-    <div className="p-4 md:p-8 max-w-6xl mx-auto">
-      <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-white">
+    <div className="p-6 md:p-10 max-w-7xl mx-auto">
+      <div className="mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
           Inventário de Hardware
         </h1>
-        <p className="text-slate-400 text-sm md:text-base">
-          Cadastro técnico e manutenção (Estoque).
+        <p className="text-slate-400">
+          Controle de estoque dos dispositivos IoT.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-        {/* FORMULÁRIO */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <div
-            className={`rounded-xl p-5 md:p-6 border sticky top-4 transition-colors ${
-              editingId
-                ? "bg-blue-900/20 border-blue-500/50"
-                : "bg-slate-800 border-slate-700"
+            className={`glass-panel p-6 rounded-2xl sticky top-6 ${
+              editingId ? "border-violet-500/50" : ""
             }`}
           >
-            <h2 className="text-lg md:text-xl font-bold text-white mb-6 flex items-center gap-2">
-              {editingId ? (
-                <>
-                  <Edit size={20} className="text-blue-400" /> Editar Hardware
-                </>
-              ) : (
-                <>
-                  <Cpu size={20} className="text-blue-500" /> Adicionar Hardware
-                </>
-              )}
+            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+              <div
+                className={`p-2 rounded-lg ${
+                  editingId
+                    ? "bg-violet-500/20 text-violet-300"
+                    : "bg-slate-800 text-slate-300"
+                }`}
+              >
+                {editingId ? <Edit size={20} /> : <Cpu size={20} />}
+              </div>
+              {editingId ? "Editar Hardware" : "Adicionar Hardware"}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
                   Modelo
                 </label>
                 <select
@@ -76,15 +74,15 @@ const ManageHardware = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, model: e.target.value })
                   }
-                  className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2.5 text-white outline-none focus:border-blue-500 transition mt-1"
+                  className="input-modern mt-2 appearance-none"
                 >
-                  <option>SenseCAP T1000</option>
-                  <option>Macaron F08-AZ</option>
-                  <option>Dragino LGT-92</option>
+                  <option className="bg-slate-900">SenseCAP T1000</option>
+                  <option className="bg-slate-900">Macaron F08-AZ</option>
+                  <option className="bg-slate-900">Dragino LGT-92</option>
                 </select>
               </div>
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
                   Serial Number
                 </label>
                 <input
@@ -93,12 +91,12 @@ const ManageHardware = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, serial: e.target.value })
                   }
-                  className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2.5 text-white outline-none font-mono focus:border-blue-500 transition mt-1"
+                  className="input-modern mt-2 font-mono"
                   placeholder="SN-123456"
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
                   Chave API
                 </label>
                 <input
@@ -107,46 +105,34 @@ const ManageHardware = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, key: e.target.value })
                   }
-                  className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2.5 text-white outline-none font-mono focus:border-blue-500 transition mt-1"
+                  className="input-modern mt-2 font-mono"
                   placeholder="Key..."
                 />
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-3 pt-4">
                 {editingId && (
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition flex justify-center items-center gap-2"
+                    className="flex-1 px-4 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-white font-bold transition"
                   >
-                    <X size={18} /> Cancelar
+                    Cancelar
                   </button>
                 )}
                 <button
                   type="submit"
-                  className={`flex-1 font-bold py-3 rounded transition flex justify-center items-center gap-2 shadow-lg ${
-                    editingId
-                      ? "bg-blue-600 hover:bg-blue-700 text-white"
-                      : "bg-green-600 hover:bg-green-700 text-white"
-                  }`}
+                  className="btn-primary flex-1 flex justify-center items-center gap-2"
                 >
-                  {editingId ? (
-                    <>
-                      <Save size={18} /> Salvar
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={18} /> Cadastrar
-                    </>
-                  )}
+                  {editingId ? "Salvar" : "Cadastrar"}
                 </button>
               </div>
             </form>
           </div>
         </div>
 
-        {/* LISTA */}
-        <div className="lg:col-span-2 space-y-3">
+        {/* LISTA DE HARDWARE */}
+        <div className="lg:col-span-2 space-y-4">
           {hardwares.map((hw) => {
             const linkedAsset = getLinkedAsset(hw.id);
             const isEditing = editingId === hw.id;
@@ -154,41 +140,35 @@ const ManageHardware = () => {
             return (
               <div
                 key={hw.id}
-                className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition ${
-                  isEditing
-                    ? "bg-blue-900/10 border-blue-500/50"
-                    : "bg-slate-800 border-slate-700 hover:border-slate-600"
+                className={`glass-card p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-6 ${
+                  isEditing ? "border-violet-500/50 bg-violet-500/5" : ""
                 }`}
               >
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-white font-bold">{hw.model}</h3>
-                    <span className="text-slate-500 text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-bold text-white">{hw.model}</h3>
+                    <span className="text-slate-500 text-xs font-mono bg-black/30 px-2 py-1 rounded border border-white/5">
                       {hw.serial}
                     </span>
-                    {isEditing && (
-                      <span className="text-[10px] text-blue-400 font-bold px-2 animate-pulse">
-                        EDITANDO
-                      </span>
-                    )}
                   </div>
-                  <div className="mt-2 text-sm">
+                  <div className="mt-3 text-sm">
                     {linkedAsset ? (
-                      <span className="text-green-400 flex items-center gap-1">
+                      <span className="text-emerald-400 flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-lg w-fit border border-emerald-500/20">
                         <Link2 size={14} /> Vinculado: <b>{linkedAsset.name}</b>
                       </span>
                     ) : (
-                      <span className="text-slate-500 flex items-center gap-1">
+                      <span className="text-slate-500 flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-lg w-fit">
                         <Box size={14} /> Disponível em Estoque
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="flex gap-2 self-end sm:self-center">
+                {/* BOTÕES DE AÇÃO RESTAURADOS */}
+                <div className="flex gap-3 self-end sm:self-center">
                   <button
                     onClick={() => handleEdit(hw)}
-                    className="p-2 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 rounded transition"
+                    className="p-3 rounded-xl bg-white/5 text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 border border-white/10 transition-all hover:scale-105"
                     disabled={isEditing}
                   >
                     <Edit size={18} />
@@ -198,7 +178,7 @@ const ManageHardware = () => {
                       if (window.confirm("Excluir hardware?"))
                         removeHardware(hw.id);
                     }}
-                    className="p-2 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded transition"
+                    className="p-3 rounded-xl bg-white/5 text-slate-300 hover:bg-red-500/20 hover:text-red-300 border border-white/10 transition-all hover:scale-105"
                   >
                     <Trash2 size={18} />
                   </button>
@@ -206,11 +186,6 @@ const ManageHardware = () => {
               </div>
             );
           })}
-          {hardwares.length === 0 && (
-            <div className="p-8 text-center border-2 border-dashed border-slate-800 rounded-xl text-slate-500">
-              Estoque vazio.
-            </div>
-          )}
         </div>
       </div>
     </div>
